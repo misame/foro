@@ -32,5 +32,12 @@ public class Respuesta {
     private LocalDateTime fecha_creacion;
     @ManyToOne
     private Usuario autor;
+    @NotNull
     private boolean solucion = false;
+
+    public Respuesta(String mensaje, Topico topico, Usuario autor) {
+        this.mensaje = mensaje;
+        this.topico = topico;
+        this.autor = autor;
+    }
 }

@@ -2,19 +2,18 @@ package com.alura.api.controller;
 
 import com.alura.api.domain.curso.Curso;
 import com.alura.api.domain.curso.CursoRepository;
-import com.alura.api.domain.topico.DatosRegistroTopico;
-import com.alura.api.domain.topico.DatosRespuestaTopico;
-import com.alura.api.domain.topico.Topico;
-import com.alura.api.domain.topico.TopicoRepository;
+import com.alura.api.domain.curso.DatosListadoCurso;
+import com.alura.api.domain.topico.*;
 import com.alura.api.domain.usuario.Usuario;
 import com.alura.api.domain.usuario.UsuarioRespository;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -51,5 +50,43 @@ public class TopicoController {
             topico.getCurso().getNombre());
     URI url = uriComponentsBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
     return ResponseEntity.created(url).body(datosRespuestaTopico);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<DatosListadoTopico>> listadoTopico(@PageableDefault(size = 10) Pageable paginacion){
+        return ResponseEntity.ok(topicoRepository.findAll(paginacion).map(DatosListadoTopico::new));
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity eliminarTopico(@PathVariable Long id){
+        Topico topico = topicoRepository.getReferenceById(id);
+        topico.desactivarTopico();
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity actualizarTopico(@RequestBody @Valid DatosActualizarTopico datosActualizarTopico){
+        Topico topico = topicoRepository.getReferenceById(datosActualizarTopico.id());
+        topico.actualizarDatos(datosActualizarTopico);
+        return ResponseEntity.ok(new DatosRespuestaTopico(
+                topico.getId(),
+                topico.getTitulo(),
+                topico.getMensaje(),
+                topico.getAutor().getNombre(),
+                topico.getCurso().getNombre()));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosRespuestaTopico> retornaDatosTopico(@PathVariable Long id){
+        Topico topico = topicoRepository.getReferenceById(id);
+        var datosTopico = new DatosRespuestaTopico(
+                topico.getId(),
+                topico.getTitulo(),
+                topico.getMensaje(),
+                topico.getAutor().getNombre(),
+                topico.getCurso().getNombre());
+        return  ResponseEntity.ok(datosTopico);
     }
 }

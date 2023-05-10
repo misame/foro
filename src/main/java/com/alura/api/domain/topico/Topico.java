@@ -37,6 +37,7 @@ public class Topico {
     @CreatedDate
     @Column(nullable = false)
     private LocalDateTime fecha_creacion;
+    private Boolean activo;
     @NotNull
     @Enumerated(EnumType.STRING)
     private EstatusTopico estatusTopico = EstatusTopico.NO_RESPONDIDO;
@@ -53,11 +54,26 @@ public class Topico {
     public Topico(String titulo, String mensaje, Usuario autor, Curso curso) {
         this.titulo = titulo;
         this.mensaje = mensaje;
+        this.activo = true;
         this.autor = autor;
         this.curso = curso;
     }
     @PrePersist
     public void prePersist() {
         fecha_creacion = LocalDateTime.now();
+    }
+
+    public void desactivarTopico() {
+        this.activo=false;
+    }
+
+    public void actualizarDatos(DatosActualizarTopico datosActualizarTopico) {
+        if (datosActualizarTopico.titulo() != null){
+            this.titulo = datosActualizarTopico.titulo();
+        }
+        if (datosActualizarTopico.mensaje() != null){
+            this.mensaje = datosActualizarTopico.mensaje();
+        }
+
     }
 }
