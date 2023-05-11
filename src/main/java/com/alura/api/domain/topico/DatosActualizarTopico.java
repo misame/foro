@@ -13,8 +13,8 @@ public record DatosActualizarTopico(
         @NotBlank
         String mensaje,
         @NotNull
-        Usuario autor,
+        String autor,
         @NotNull
-        Curso curso
+        String curso
 ) {
 }

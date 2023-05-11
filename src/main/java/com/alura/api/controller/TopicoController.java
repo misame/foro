@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/topicos")
@@ -65,11 +66,18 @@ public class TopicoController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity actualizarTopico(@RequestBody @Valid DatosActualizarTopico datosActualizarTopico){
+    public ResponseEntity actualizarTopico(@PathVariable Long id,@RequestBody @Valid DatosActualizarTopico datosActualizarTopico){
+        Usuario autor = usuarioRespository.findByNombre(datosActualizarTopico.autor());
+        Curso curso = cursoRepository.findByNombre(datosActualizarTopico.curso());
         Topico topico = topicoRepository.getReferenceById(datosActualizarTopico.id());
-        topico.actualizarDatos(datosActualizarTopico);
+        topico.actualizarDatos(
+                datosActualizarTopico.id(),
+                datosActualizarTopico.titulo(),
+                datosActualizarTopico.mensaje(),
+                autor,
+                curso);
         return ResponseEntity.ok(new DatosRespuestaTopico(
                 topico.getId(),
                 topico.getTitulo(),

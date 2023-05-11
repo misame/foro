@@ -76,4 +76,12 @@ public class Topico {
         }
 
     }
+
+    public void actualizarDatos(Long id, String titulo, String mensaje, Usuario autor, Curso curso) {
+        this.id = id;
+        this.titulo = titulo;
+        this.mensaje = mensaje;
+        this.autor = autor;
+        this.curso = curso;
+    }
 }
