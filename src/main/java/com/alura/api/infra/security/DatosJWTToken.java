@@ -1,6 +1,5 @@
 package com.alura.api.infra.security;
 
-public class DatosJWTToken {
-    public DatosJWTToken(String jwTtoken) {
-    }
+public record DatosJWTToken (String jwTtoken){
+
 }
