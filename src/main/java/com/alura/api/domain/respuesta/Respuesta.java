@@ -29,6 +29,7 @@ public class Respuesta {
     private Topico topico;
     @CreatedDate
     @NotNull
+    @Column(name = "fecha_creacion")
     private LocalDateTime fecha_creacion;
     @ManyToOne
     private Usuario autor;
@@ -39,5 +40,10 @@ public class Respuesta {
         this.mensaje = mensaje;
         this.topico = topico;
         this.autor = autor;
+    }
+
+    @PrePersist
+    public void prePersist(){
+        fecha_creacion = LocalDateTime.now();
     }
 }

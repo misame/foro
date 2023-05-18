@@ -1,9 +1,20 @@
 package com.alura.api.domain.respuesta;
 
+import java.time.LocalDateTime;
+
 public record DatosRespuestaRespuesta(
         Long id,
         String autor,
-        String topico,
-        String mensaje
+        String fecha_creacion,
+        String mensaje,
+        boolean solucion
 ) {
+    public DatosRespuestaRespuesta(Respuesta respuesta) {
+        this(
+                respuesta.getId(),
+                respuesta.getAutor().getNombre(),
+                respuesta.getFecha_creacion().toString(),
+                respuesta.getMensaje(),
+                respuesta.isSolucion());
+    }
 }

@@ -3,7 +3,6 @@ package com.alura.api.domain.topico;
 import com.alura.api.domain.curso.Curso;
 import com.alura.api.domain.respuesta.Respuesta;
 import com.alura.api.domain.usuario.Usuario;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -35,7 +34,7 @@ public class Topico {
     private String mensaje;
     @NotNull
     @CreatedDate
-    @Column(nullable = false)
+    @Column(nullable = false, name = "fecha_creacion")
     private LocalDateTime fecha_creacion;
     private Boolean activo;
     @NotNull
