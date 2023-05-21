@@ -43,6 +43,12 @@ public class Usuario implements UserDetails {
         this.contrasena = datosRegistroUsuario.contrasena();
     }
 
+    public Usuario(String nombre, String email, String contrasenaCodificada) {
+        this.nombre=nombre;
+        this.email=email;
+        this.contrasena=contrasenaCodificada;
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

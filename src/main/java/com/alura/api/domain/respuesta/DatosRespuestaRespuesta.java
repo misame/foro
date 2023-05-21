@@ -1,6 +1,5 @@
 package com.alura.api.domain.respuesta;
 
-import java.time.LocalDateTime;
 
 public record DatosRespuestaRespuesta(
         Long id,

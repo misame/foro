@@ -2,7 +2,6 @@ package com.alura.api.controller;
 
 import com.alura.api.domain.curso.*;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -16,7 +15,7 @@ import java.net.URI;
 @RequestMapping("/cursos")
 public class CursoController {
     private CursoRepository cursoRepository;
-    @Autowired
+
     public CursoController(CursoRepository cursoRepository) {
         this.cursoRepository = cursoRepository;
     }
